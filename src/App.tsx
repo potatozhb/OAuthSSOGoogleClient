@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./App.css";
 import styled from "styled-components";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
@@ -7,6 +6,7 @@ import { LoginSuccess } from "./app/containers/LoginSuccess";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, setIsAuthenticated } from "./app/appSlice";
+import diagram from './googlesso.png';
 
 const AppContainer = styled.div`
   width: 100%;
@@ -25,9 +25,10 @@ function App() {
 
   const fetchAuthUser = async () => {
     const response = await axios
-      .get("http://localhost:5000/api/auth/user", { withCredentials: true })
+      .get(process.env.REACT_APP_CLIENT_API_ADDRESS + "/api/auth/user", { withCredentials: true })
       .catch((err) => {
-        console.log("Not properly authenticated");
+        console.log("Not properly authenticated" + err);
+        
         dispatch(setIsAuthenticated(false));
         dispatch(setAuthUser(null));
         history.push("/login/error");
@@ -43,7 +44,7 @@ function App() {
 
   const redirectToGoogleSSO = async () => {
     let timer: NodeJS.Timeout | null = null;
-    const googleLoginURL = "http://localhost:5000/api/login/google";
+    const googleLoginURL = process.env.REACT_APP_CLIENT_API_ADDRESS + "/api/login/google";
     const newWindow = window.open(
       googleLoginURL,
       "_blank",
@@ -65,11 +66,17 @@ function App() {
     <AppContainer>
       <Switch>
         <Route exact path="/">
-          Welcome Home!
+          Welcome SSO OAuth2.0 Demo by google IDP!
           <Link to="/login">Login</Link>
         </Route>
         <Route exact path="/login">
           <GoogleButton onClick={redirectToGoogleSSO} />
+          <img src = {diagram} alt="Diagram"
+                style={{ 
+                  height: '800px',      // Limiting height
+                  width: 'auto',      // Maintain aspect ratio
+                  maxWidth: '100%'     // Ensuring it doesn't overflow container
+                }}/>
         </Route>
         <Route path="/welcome">Welcome Back {user && user.fullname}</Route>
         <Route exact path="/login/success" component={LoginSuccess} />
@@ -79,6 +86,7 @@ function App() {
       </Switch>
     </AppContainer>
   );
+  
 }
 
 export default App;

@@ -1,0 +1,30 @@
+runtime: nodejs22
+service: default
+
+env_variables:
+  NODE_OPTIONS: "--openssl-legacy-provider"
+
+handlers:
+  - url: /
+    static_files: build/index.html
+    upload: build/index.html
+
+  - url: /login
+    static_files: build/index.html
+    upload: build/index.html
+
+  - url: /welcome
+    static_files: build/index.html
+    upload: build/index.html
+
+  - url: /login/success
+    static_files: build/index.html
+    upload: build/index.html
+
+  - url: /login/error
+    static_files: build/index.html
+    upload: build/index.html
+
+  - url: /(.*)
+    static_files: build/\1
+    upload: build/(.*)
