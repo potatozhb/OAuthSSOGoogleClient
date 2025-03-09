@@ -1,5 +1,5 @@
 runtime: nodejs22
-service: default
+service: client
 
 env_variables:
   NODE_OPTIONS: "--openssl-legacy-provider"

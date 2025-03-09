@@ -4,7 +4,7 @@ export function LoginSuccess() {
   useEffect(() => {
     setTimeout(() => {
       window.close();
-    }, 5000);
+    }, 100000);
   }, []);
 
   return <div>Thanks for loggin in!</div>;

@@ -53,7 +53,7 @@ function App() {
 
     if (newWindow) {
       timer = setInterval(() => {
-        if (newWindow.closed) {
+        if (!newWindow.closed) {
           console.log("Yay we're authenticated");
           fetchAuthUser();
           if (timer) clearInterval(timer);
@@ -66,7 +66,7 @@ function App() {
     <AppContainer>
       <Switch>
         <Route exact path="/">
-          Welcome SSO OAuth2.0 Demo by google IDP!
+          Welcome SSO OAuth2.0 Demo by google IDP Client!
           <Link to="/login">Login</Link>
         </Route>
         <Route exact path="/login">
